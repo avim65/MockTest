@@ -1,0 +1,91 @@
+package com.ed.android.mocktask.adapters;
+
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+
+import com.ed.android.mocktask.BR;
+import com.ed.android.mocktask.models.Employee;
+import com.ed.android.mocktask.viewmodels.EmployeeListViewModel;
+
+import java.util.List;
+
+public class EmployeeListRecyclerAdapter extends RecyclerView.Adapter<EmployeeListRecyclerAdapter.EmployeeListViewHolder> {
+
+    private int layoutId;
+    private EmployeeListViewModel employeeListViewModel;
+    private List<Employee> mEmployeeList;
+
+    public EmployeeListRecyclerAdapter(@LayoutRes int layoutId, EmployeeListViewModel viewModel) {
+        this.layoutId = layoutId;
+        this.employeeListViewModel = viewModel;
+    }
+
+    @NonNull
+    @Override
+    public EmployeeListRecyclerAdapter.EmployeeListViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+        LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
+        ViewDataBinding binding = DataBindingUtil.inflate(layoutInflater, viewType, viewGroup, false);
+        return new EmployeeListRecyclerAdapter.EmployeeListViewHolder(binding);
+
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull EmployeeListRecyclerAdapter.EmployeeListViewHolder employeeListViewHolder, int i) {
+        Employee obj = getObjForPosition(i);
+        employeeListViewHolder.bind(obj, employeeListViewModel);
+    }
+
+    @Override
+    public int getItemCount() {
+        return mEmployeeList == null ? 0 : mEmployeeList.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return getLayoutIdForPosition(position);
+    }
+
+    private int getLayoutIdForPosition(int position) {
+        return layoutId;
+    }
+
+    public void seEmployeeList(List employeeList) {
+        this.mEmployeeList = employeeList;
+        notifyDataSetChanged();
+    }
+
+    private Employee getObjForPosition(int position) {
+        return mEmployeeList.get(position);
+
+    }
+
+
+    class EmployeeListViewHolder extends RecyclerView.ViewHolder {
+        final ViewDataBinding binding;
+
+        EmployeeListViewHolder(ViewDataBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+        }
+
+        void bind(Employee obj, EmployeeListViewModel viewModel) {
+            binding.setVariable(BR.employeeObject, obj);
+            binding.setVariable(BR.viewModel, viewModel);
+            binding.executePendingBindings();
+        }
+
+    }
+
+}
+
+
+
+
+
+
+

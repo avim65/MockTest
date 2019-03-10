@@ -1,0 +1,187 @@
+[
+  {
+	"id": 1,
+	"empCount": 5,
+	"name": "ABC Software Pvt. Ltd",
+	"address": "Pune",
+	"claps": 19599,
+	"employees": [
+	  {
+		"id": 1,
+		"name": "Onkar",
+		"age": 27,
+		"address": "Pune",
+		"department": "Development"
+	  },
+	  {
+		"id": 2,
+		"name": "Manoj",
+		"age": 26,
+		"address": "Pune",
+		"department": "Development"
+	  },
+	  {
+		"id": 3,
+		"name": "Vikrant",
+		"age": 32,
+		"address": "Pune",
+		"department": "QA"
+	  },
+	  {
+		"id": 4,
+		"name": "Mahesh",
+		"age": 30,
+		"address": "Pune",
+		"department": "Development"
+	  },
+	  {
+		"id": 5,
+		"name": "Hemant",
+		"age": 28,
+		"address": "Pune",
+		"department": "Support"
+	  }
+	]
+  },
+  {
+	"id": 2,
+	"empCount": 3,
+	"name": "XYZ Software Pvt. Ltd",
+	"address": "Kolkata",
+	"claps": 24565,
+	"employees": [
+	  {
+		"id": 1,
+		"name": "Jaspreet",
+		"age": 31,
+		"address": "Kolkata",
+		"department": "HR"
+	  },
+	  {
+		"id": 2,
+		"name": "Jai",
+		"age": 29,
+		"address": "Kolkata",
+		"department": "Design"
+	  },
+	  {
+		"id": 3,
+		"name": "Avijit",
+		"age": 27,
+		"address": "Kolkata",
+		"department": "Development"
+	  }
+	]
+  },
+  {
+	"id": 3,
+	"empCount": 4,
+	"name": "SMT Software",
+	"address": "Manila",
+	"claps": 12407,
+	"employees": [
+	  {
+		"id": 1,
+		"name": "Carlo",
+		"age": 30,
+		"address": "Manila",
+		"department": "Design"
+	  },
+	  {
+		"id": 2,
+		"name": "Nev",
+		"age": 28,
+		"address": "Manila",
+		"department": "UX"
+	  },
+	  {
+		"id": 3,
+		"name": "Mary",
+		"age": 26,
+		"address": "Manila",
+		"department": "Development"
+	  },
+	  {
+		"id": 4,
+		"name": "Edward",
+		"age": 24,
+		"address": "Manila",
+		"department": "Development"
+	  }
+	]
+  },
+  {
+	"id": 4,
+	"empCount": 6,
+	"name": "VBT Agency",
+	"address": "London",
+	"claps": 17047,
+	"employees": [
+	  {
+		"id": 1,
+		"name": "Jack",
+		"age": 30,
+		"address": "London",
+		"department": "Design"
+	  },
+	  {
+		"id": 2,
+		"name": "Roy",
+		"age": 28,
+		"address": "London",
+		"department": "UX"
+	  },
+	  {
+		"id": 3,
+		"name": "James",
+		"age": 26,
+		"address": "London",
+		"department": "Development"
+	  },
+	  {
+		"id": 4,
+		"name": "SM",
+		"age": 32,
+		"address": "London",
+		"department": "Development"
+	  },
+	  {
+		"id": 5,
+		"name": "Batman",
+		"age": 35,
+		"address": "London",
+		"department": "Development"
+	  },
+	  {
+		"id": 6,
+		"name": "Superman",
+		"age": 29,
+		"address": "London",
+		"department": "QA"
+	  }
+	]
+  },
+  {
+	"id": 5,
+	"empCount": 2,
+	"name": "Shield Agency",
+	"address": "New York City",
+	"claps": 35747,
+	"employees": [
+	  {
+		"id": 1,
+		"name": "Iron Man",
+		"age": 30,
+		"address": "New York City",
+		"department": "Development"
+	  },
+	  {
+		"id": 2,
+		"name": "Hulk",
+		"age": 28,
+		"address": "New York City",
+		"department": "Super Admin"
+	  }
+	]
+  }
+]

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <data>
+
+        <variable
+            name="companyObj"
+            type="com.ed.android.mocktask.models.Company" />
+
+        <variable
+            name="viewModel"
+            type="com.ed.android.mocktask.viewmodels.CompanyListViewModel" />
+
+        <variable
+            name="position"
+            type="Integer" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> viewModel.onItemClick(companyObj)}"
+        android:padding="@dimen/_8sdp">
+
+        <TextView
+            android:id="@+id/company_name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{companyObj.name}"
+            android:textSize="@dimen/_15sdp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/company_employeeCount_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/company_name_text"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:text="@{@string/total_employee + ' '+ Long.toString(companyObj.empCount)}"
+            android:textSize="@dimen/_12sdp" />
+
+        <TextView
+            android:id="@+id/company_address_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/company_employeeCount_text"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:text="@{companyObj.address}"
+            android:textSize="@dimen/_12sdp" />
+
+        <TextView
+            android:id="@+id/company_clapsCount_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/company_address_text"
+            android:layout_alignParentRight="true"
+            android:onClick="@{() -> viewModel.onClapsItemClick(companyObj,position)}"
+            android:drawableLeft="@drawable/ic_icon_claps"
+            android:drawablePadding="@dimen/_3sdp"
+            android:text="@{String.valueOf(companyObj.claps)}"
+            android:textSize="@dimen/_12sdp" />
+
+
+    </RelativeLayout>
+
+</layout>
