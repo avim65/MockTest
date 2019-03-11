@@ -31,7 +31,6 @@ import java.io.InputStream;
 public class CompanyListFragment extends Fragment implements SearchView.OnQueryTextListener, SearchView.OnCloseListener, MenuItem.OnMenuItemClickListener {
 
     private OnFragmentInteractionListener mListener;
-
     private CompanyListViewModel mCompanyViewModel;
 
     private static final String TAG = CompanyListFragment.class.getSimpleName();
@@ -55,18 +54,9 @@ public class CompanyListFragment extends Fragment implements SearchView.OnQueryT
                 .layout.company_list_fragment, container, false);
         mCompanyViewModel = ViewModelProviders.of(this).get(CompanyListViewModel.class);
         binding.setModel(mCompanyViewModel);
-        setupViewModel();
+        m_SetupViewModel();
         return binding.getRoot();
     }
-
-    private void setupViewModel() {
-        InputStream inputStream = getResources().openRawResource(R.raw.company_info);
-        mCompanyViewModel.init();
-        mCompanyViewModel.createCompanyFromJson(inputStream);
-        mCompanyViewModel.setFragmentTransactionListner(mListener);
-        setupListItemClick();
-    }
-
 
     @Override
     public void onAttach(Context context) {
@@ -84,30 +74,6 @@ public class CompanyListFragment extends Fragment implements SearchView.OnQueryT
         super.onDetach();
         mListener = null;
     }
-
-
-    private void setupListItemClick() {
-        mCompanyViewModel.getSelected().observe(this, new Observer<Company>() {
-            @Override
-            public void onChanged(Company company) {
-                if (company != null) {
-                    mListener.onFragmentInteraction(company);
-                }
-
-            }
-        });
-
-        mCompanyViewModel.getCompanyListClapsIconClick().observe(this, new Observer<Company>() {
-            @Override
-            public void onChanged(Company company) {
-                if (company != null) {
-                    mCompanyViewModel.updateClapsCount(company);
-                }
-
-            }
-        });
-    }
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -151,4 +117,37 @@ public class CompanyListFragment extends Fragment implements SearchView.OnQueryT
 
         return false;
     }
+
+
+    private void m_SetupListItemClick() {
+        mCompanyViewModel.getSelected().observe(this, new Observer<Company>() {
+            @Override
+            public void onChanged(Company company) {
+                if (company != null) {
+                    mListener.onFragmentInteraction(company);
+                }
+
+            }
+        });
+
+        mCompanyViewModel.getCompanyListClapsIconClick().observe(this, new Observer<Company>() {
+            @Override
+            public void onChanged(Company company) {
+                if (company != null) {
+                    mCompanyViewModel.updateClapsCount(company);
+                }
+
+            }
+        });
+    }
+
+    private void m_SetupViewModel() {
+        InputStream inputStream = getResources().openRawResource(R.raw.company_info);
+        mCompanyViewModel.init();
+        mCompanyViewModel.createCompanyFromJson(inputStream);
+        mCompanyViewModel.setFragmentTransactionListner(mListener);
+        m_SetupListItemClick();
+    }
+
+
 }

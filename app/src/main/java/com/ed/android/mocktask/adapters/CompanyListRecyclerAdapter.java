@@ -15,15 +15,20 @@ import com.ed.android.mocktask.viewmodels.CompanyListViewModel;
 
 import java.util.List;
 
+import io.realm.RealmChangeListener;
+import io.realm.RealmObject;
+import io.realm.RealmResults;
+
 public class CompanyListRecyclerAdapter extends RecyclerView.Adapter<CompanyListRecyclerAdapter.CompanyListViewHolder> {
 
-    private int layoutId;
-    private CompanyListViewModel companyListViewModel;
-    private List<Company> mCompanyList;
+    private int mLayoutId;
+    private CompanyListViewModel mCompanyListViewModel;
+    private RealmResults<Company> mCompanyResults;
+
 
     public CompanyListRecyclerAdapter(@LayoutRes int layoutId, CompanyListViewModel viewModel) {
-        this.layoutId = layoutId;
-        this.companyListViewModel = viewModel;
+        this.mLayoutId = layoutId;
+        this.mCompanyListViewModel = viewModel;
     }
 
 
@@ -39,13 +44,13 @@ public class CompanyListRecyclerAdapter extends RecyclerView.Adapter<CompanyList
     @Override
     public void onBindViewHolder(@NonNull CompanyListViewHolder companyListViewHolder, int i) {
         Company obj = getObjForPosition(i);
-        companyListViewModel.setListItemPosition(i);
-        companyListViewHolder.bind(obj, companyListViewModel, i);
+        companyListViewHolder.bind(obj, mCompanyListViewModel, i);
+        companyListViewHolder.setDataChangeTracking(obj);
     }
 
     @Override
     public int getItemCount() {
-        return mCompanyList == null ? 0 : mCompanyList.size();
+        return mCompanyResults == null ? 0 : mCompanyResults.size();
     }
 
     @Override
@@ -54,28 +59,37 @@ public class CompanyListRecyclerAdapter extends RecyclerView.Adapter<CompanyList
     }
 
     private int getLayoutIdForPosition(int position) {
-        return layoutId;
+        return mLayoutId;
     }
 
-    public void setCompanyList(List companyList) {
-        this.mCompanyList = companyList;
+    public void setCompanyList(RealmResults companyList) {
+        this.mCompanyResults = companyList;
         notifyDataSetChanged();
     }
 
     public List<Company> getmCompanyList()
     {
-        return mCompanyList;
+        return mCompanyResults;
     }
 
 
     private Company getObjForPosition(int position) {
-        return mCompanyList.get(position);
+        return mCompanyResults.get(position);
 
     }
 
 
     class CompanyListViewHolder extends RecyclerView.ViewHolder {
         final ViewDataBinding binding;
+        private RealmObject mObject;
+
+
+        private RealmChangeListener companyDataChangeListner = new RealmChangeListener() {
+            @Override
+            public void onChange(Object o) {
+                notifyItemChanged(getAdapterPosition());
+            }
+        };
 
         CompanyListViewHolder(ViewDataBinding binding) {
             super(binding.getRoot());
@@ -88,6 +102,14 @@ public class CompanyListRecyclerAdapter extends RecyclerView.Adapter<CompanyList
             binding.setVariable(BR.position, position);
             binding.executePendingBindings();
         }
+
+         void setDataChangeTracking(RealmObject object){
+            if (mObject != null)
+                mObject.removeChangeListener(companyDataChangeListner);
+            this.mObject = object;
+            this.mObject.addChangeListener(companyDataChangeListner);
+        }
+
 
     }
 

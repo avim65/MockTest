@@ -25,18 +25,10 @@ public class CompanyListViewModel extends ViewModel implements DBWriteCallback {
 
 
     private CompanyListRecyclerAdapter mCompanyRecycleAdapter;
-    private MutableLiveData<Company> companyListItemClicked = new MutableLiveData<>();
-    private List<Company> companySearchedList;
-    private List<Company> sortedCompanyList;
+    private MutableLiveData<Company> mCompanyListItemClicked = new MutableLiveData<>();
+    private RealmResults<Company> mCompanySearchedList;
     private MutableLiveData<Company> companyListClapsIconClick = new MutableLiveData<>();
-    private RealmResults<Company> companyUpdatedData;
-    private int listItemPosition;
     private MenuSortStatus menuSortStatus;
-    public MutableLiveData<String> mError = new MutableLiveData<>();
-    public MutableLiveData<String> mEmpCount = new MutableLiveData<>();
-    public MutableLiveData<String> mCompanyName = new MutableLiveData<>();
-    public MutableLiveData<String> mCompanyClaps = new MutableLiveData<>();
-    public MutableLiveData<String> mCompanyAddress = new MutableLiveData<>();
 
 
     private OnFragmentInteractionListener mOnFragmentInteractionListener;
@@ -63,27 +55,27 @@ public class CompanyListViewModel extends ViewModel implements DBWriteCallback {
     @Override
     public void onDBWriteSuccess(List listData) {
         menuSortStatus.setMenuSort(MenuSort.DSC);
-        setCompanyDataToList(listData);
+        setCompanyDataToList(RealmHelper.getSingleToneInstance().getAllCompanyData());
     }
 
-    private void setCompanyDataToList(List companyDataToList) {
+    private void setCompanyDataToList(RealmResults companyDataToList) {
         this.mCompanyRecycleAdapter.setCompanyList(companyDataToList);
         this.mCompanyRecycleAdapter.notifyDataSetChanged();
     }
 
     public void onItemClick(Company companyObj) {
-        companyListItemClicked.setValue(companyObj);
+        mCompanyListItemClicked.setValue(companyObj);
     }
 
     public MutableLiveData<Company> getSelected() {
-        return companyListItemClicked;
+        return mCompanyListItemClicked;
     }
 
 
     public void getSearchedCompany(String companyName) {
         if (!TextUtils.isEmpty(companyName)) {
-            companySearchedList = RealmHelper.getSingleToneInstance().getCompanyListBySearch(companyName);
-            setCompanyDataToList(companySearchedList);
+            mCompanySearchedList = RealmHelper.getSingleToneInstance().getCompanyListBySearch(companyName);
+            setCompanyDataToList(mCompanySearchedList);
         } else {
             setCompanyDataToList(RealmHelper.getSingleToneInstance().getAllCompanyData());
         }
@@ -91,7 +83,6 @@ public class CompanyListViewModel extends ViewModel implements DBWriteCallback {
 
 
     public void sortCompanyList() {
-
         if (menuSortStatus.getMenuSort() == MenuSort.ASC) {
             menuSortStatus.setMenuSort(MenuSort.DSC);
             setCompanyDataToList(RealmHelper.getSingleToneInstance().getAllCompanyData());
@@ -103,10 +94,8 @@ public class CompanyListViewModel extends ViewModel implements DBWriteCallback {
     }
 
 
-    public void onClapsItemClick(Company companyObj,int listItemPosition) {
-        companyListClapsIconClick.setValue(companyObj);
-        mCompanyRecycleAdapter.getmCompanyList().get(listItemPosition).setClaps(getUpdatedClapsCount(companyObj));
-        mCompanyRecycleAdapter.notifyDataSetChanged();
+    public void onClapsItemClick(Company companyObj, int listItemPosition) {
+        RealmHelper.getSingleToneInstance().updateCompanyClapsCount(companyObj.getId(), getUpdatedClapsCount(companyObj));
     }
 
 
@@ -121,18 +110,7 @@ public class CompanyListViewModel extends ViewModel implements DBWriteCallback {
     }
 
     public void updateClapsCount(Company companyObj) {
-
-
         RealmHelper.getSingleToneInstance().updateCompanyClapsCount(companyObj.getId(), getUpdatedClapsCount(companyObj));
-    }
-
-
-    public int getListItemPosition() {
-        return listItemPosition;
-    }
-
-    public void setListItemPosition(int listItemPosition) {
-        this.listItemPosition = listItemPosition;
     }
 
 

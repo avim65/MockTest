@@ -8,8 +8,16 @@
 
     <string name="search_hint">Enter some query</string>
     <string name="dialog_company_title">Add New Company</string>
+    <string name="dialog_employee_title">Add New Employee</string>
     <string name="done">Done</string>
     <string name="error_string">Field can\'t be empty</string>
+
+    <string name="emp_count">Employee Count</string>
+    <string name="cmp_address">Address</string>
+    <string name="cmp_name">Name</string>
+    <string name="cmp_claps">Claps</string>
+    <string name="emp_dept">Department</string>
+    <string name="emp_age">Age</string>
 
 
 </resources>

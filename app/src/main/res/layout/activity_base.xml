@@ -11,5 +11,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"></FrameLayout>
 
+        <ImageView
+            android:id="@+id/base_add_new_image"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_add_icon"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_20sdp" />
+
     </RelativeLayout>
 </layout>

@@ -16,13 +16,13 @@ import com.ed.android.mocktask.utils.MenuSort;
 
 import java.util.List;
 
+import io.realm.RealmResults;
 import io.realm.Sort;
 
-public class EmployeeListViewModel extends ViewModel implements DBWriteCallback {
+public class EmployeeListViewModel extends ViewModel  {
 
     private EmployeeListRecyclerAdapter mEmployeeRecyclerAdapter;
-    private OnFragmentInteractionListener mOnFragmentInteractionListener;
-    private List<Employee> mEmployeeSearchedList;
+    private RealmResults<Employee> mEmployeeSearchedResults;
     private MenuSortStatus menuSortStatus;
 
     public void init() {
@@ -34,29 +34,21 @@ public class EmployeeListViewModel extends ViewModel implements DBWriteCallback 
         return mEmployeeRecyclerAdapter;
     }
 
-    @Override
-    public void onDBWriteSuccess(List listData) {
-        menuSortStatus.setMenuSort(MenuSort.DSC);
-        setEmployeeDataToList(listData);
-    }
-
-    public void setEmployeeDataToList(List employeeList) {
+    public void setEmployeeDataToList(RealmResults employeeList) {
         this.mEmployeeRecyclerAdapter.seEmployeeList(employeeList);
         this.mEmployeeRecyclerAdapter.notifyDataSetChanged();
     }
 
     public void getSearchedCompany(String companyName, int companyId) {
-
         if (!TextUtils.isEmpty(companyName)) {
-            mEmployeeSearchedList = RealmHelper.getSingleToneInstance().getEmployeeListBySearch(companyName, companyId);
-            setEmployeeDataToList(mEmployeeSearchedList);
+            mEmployeeSearchedResults = RealmHelper.getSingleToneInstance().getEmployeeListBySearch(companyName, companyId);
+            setEmployeeDataToList(mEmployeeSearchedResults);
         } else {
             setEmployeeDataToList(RealmHelper.getSingleToneInstance().getAllEmployee(companyId));
         }
     }
 
     public void getSortedEmployeeList(int companyId) {
-
         if (menuSortStatus.getMenuSort() == MenuSort.ASC) {
             menuSortStatus.setMenuSort(MenuSort.DSC);
             setEmployeeDataToList(RealmHelper.getSingleToneInstance().getAllEmployee(companyId));

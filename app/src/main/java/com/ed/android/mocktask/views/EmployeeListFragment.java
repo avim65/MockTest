@@ -18,6 +18,7 @@ import android.widget.ImageView;
 
 import com.ed.android.mocktask.R;
 import com.ed.android.mocktask.databinding.EmployeeListFragmentBinding;
+import com.ed.android.mocktask.helpers.RealmHelper;
 import com.ed.android.mocktask.interfaces.OnFragmentInteractionListener;
 import com.ed.android.mocktask.models.Employee;
 import com.ed.android.mocktask.viewmodels.EmployeeListViewModel;
@@ -77,7 +78,7 @@ public class EmployeeListFragment extends Fragment implements SearchView.OnQuery
         mCompanyId = args.getInt(TAG_COMPANY_ID, 0);
         employeeArrayList = args.getParcelableArrayList(TAG_EMPLOYEE_DATA);
         mEmployeeListViewModel.init();
-        mEmployeeListViewModel.setEmployeeDataToList(employeeArrayList);
+        mEmployeeListViewModel.setEmployeeDataToList(RealmHelper.getSingleToneInstance().getAllEmployee(mCompanyId));
     }
 
 
@@ -117,14 +118,11 @@ public class EmployeeListFragment extends Fragment implements SearchView.OnQuery
 
     @Override
     public boolean onQueryTextSubmit(String s) {
-
-
         return false;
     }
 
     @Override
     public boolean onQueryTextChange(String s) {
-
         mEmployeeListViewModel.getSearchedCompany(s
                 , mCompanyId);
         return true;

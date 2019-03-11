@@ -6,9 +6,9 @@ import android.os.Parcelable;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
 import io.realm.annotations.LinkingObjects;
+import io.realm.annotations.PrimaryKey;
 
 public class Employee extends RealmObject implements Parcelable {
-
     private int id;
     private String name;
     private int age;
