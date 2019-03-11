@@ -34,6 +34,12 @@ public class CompanyListViewModel extends ViewModel implements DBWriteCallback, 
 
     private OnFragmentInteractionListener mOnFragmentInteractionListener;
 
+    @Override
+    public void onChange(Object o) {
+
+        mCompanyRecycleAdapter.notifyDataSetChanged();
+    }
+
     public void init() {
         menuSortStatus = new MenuSortStatus();
         mCompanyRecycleAdapter = new CompanyListRecyclerAdapter(R.layout.company_list_item, this);
@@ -117,10 +123,4 @@ public class CompanyListViewModel extends ViewModel implements DBWriteCallback, 
         RealmHelper.getSingleToneInstance().updateCompanyClapsCount(companyObj.getId(), getUpdatedClapsCount(companyObj));
     }
 
-
-    @Override
-    public void onChange(Object o) {
-
-        mCompanyRecycleAdapter.notifyDataSetChanged();
-    }
 }

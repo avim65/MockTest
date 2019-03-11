@@ -12,6 +12,12 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
+import static com.ed.android.mocktask.utils.Util.AGE;
+import static com.ed.android.mocktask.utils.Util.CLAPS;
+import static com.ed.android.mocktask.utils.Util.COMPANY_ID;
+import static com.ed.android.mocktask.utils.Util.ID;
+import static com.ed.android.mocktask.utils.Util.NAME;
+
 public class RealmHelper {
 
 
@@ -65,13 +71,13 @@ public class RealmHelper {
 
     public RealmResults<Company> getAllCompanyData() {
         RealmResults<Company> companyRealmResults = getRealmInstance().where(Company.class)
-                .sort("id", Sort.DESCENDING)
+                .sort(ID, Sort.DESCENDING)
                 .findAll()
                 .where()
-                .sort("claps", Sort.DESCENDING)
+                .sort(CLAPS, Sort.DESCENDING)
                 .findAll()
                 .where()
-                .sort("name", Sort.DESCENDING)
+                .sort(NAME, Sort.DESCENDING)
                 .findAll();
 
 
@@ -87,7 +93,7 @@ public class RealmHelper {
 
     public RealmResults<Company> getCompanyListBySearch(String companyName) {
         RealmResults<Company> companyRealmResults = getRealmInstance().where(Company.class)
-                .contains("name", companyName, Case.INSENSITIVE)
+                .contains(NAME, companyName, Case.INSENSITIVE)
                 .findAll();
         return companyRealmResults;
         //return getRealmInstance().copyFromRealm(companyRealmResults);
@@ -96,13 +102,13 @@ public class RealmHelper {
     public RealmResults<Company> getASCSortedCompanyList() {
 
         RealmResults<Company> sortedCompanyList = getRealmInstance().where(Company.class)
-                .sort("id", Sort.ASCENDING)
+                .sort(ID, Sort.ASCENDING)
                 .findAll()
                 .where()
-                .sort("claps", Sort.ASCENDING)
+                .sort(ID, Sort.ASCENDING)
                 .findAll()
                 .where()
-                .sort("name", Sort.ASCENDING)
+                .sort(ID, Sort.ASCENDING)
                 .findAll();
 
 
@@ -118,7 +124,7 @@ public class RealmHelper {
             @Override
             public void execute(Realm realm) {
 
-                Company companyObj = realm.where(Company.class).equalTo("id", companyId).findFirst();
+                Company companyObj = realm.where(Company.class).equalTo(ID, companyId).findFirst();
                 companyObj.setClaps(clapsCount);
                 realm.copyToRealmOrUpdate(companyObj);
             }
@@ -135,7 +141,7 @@ public class RealmHelper {
         getRealmInstance().executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                Number companyId = realm.where(Company.class).max("id");
+                Number companyId = realm.where(Company.class).max(ID);
                 companyModel.setId(companyId.intValue() + 1);
                 realm.copyToRealmOrUpdate(companyModel);
 
@@ -152,14 +158,13 @@ public class RealmHelper {
                 .equalTo("company.id", companyId)
                 .findAll()
                 .where()
-                .sort("name", Sort.ASCENDING)
+                .sort(NAME, Sort.ASCENDING)
                 .findAll()
                 .where()
-                .sort("id", Sort.ASCENDING)
+                .sort(ID, Sort.ASCENDING)
                 .findAll()
-
                 .where()
-                .sort("age", Sort.ASCENDING)
+                .sort(AGE, Sort.ASCENDING)
                 .findAll();
 
         return sortedCompanyList;
@@ -168,8 +173,8 @@ public class RealmHelper {
 
     public RealmResults<Employee> getEmployeeListBySearch(String employeeName, int companyId) {
         RealmResults<Employee> companyRealmResults = getRealmInstance().where(Employee.class)
-                .equalTo("company.id", companyId)
-                .contains("name", employeeName, Case.INSENSITIVE)
+                .equalTo(COMPANY_ID, companyId)
+                .contains(NAME, employeeName, Case.INSENSITIVE)
                 .findAll();
         return companyRealmResults;
         // return getRealmInstance().copyFromRealm(companyRealmResults);
@@ -180,16 +185,16 @@ public class RealmHelper {
     public RealmResults<Employee> getAllEmployee(int companyId) {
         RealmResults<Employee> companyRealmResults = getRealmInstance().where(Employee.class).findAll()
                 .where()
-                .sort("name", Sort.DESCENDING)
+                .sort(NAME, Sort.DESCENDING)
                 .findAll()
                 .where()
-                .sort("id", Sort.DESCENDING)
+                .sort(ID, Sort.DESCENDING)
                 .findAll()
                 .where()
-                .sort("age", Sort.DESCENDING)
+                .sort(AGE, Sort.DESCENDING)
                 .findAll()
                 .where()
-                .equalTo("company.id", companyId)
+                .equalTo(COMPANY_ID, companyId)
                 .findAll();
 
         return companyRealmResults;
@@ -202,8 +207,8 @@ public class RealmHelper {
             @Override
             public void execute(Realm realm) {
                 Number maxEmployeeId = realm.where(Employee.class)
-                        .equalTo("company.id",companyId).max("id");
-                Company parentCompany = realm.where(Company.class).equalTo("id", companyId).findFirst();
+                        .equalTo(COMPANY_ID,companyId).max(ID);
+                Company parentCompany = realm.where(Company.class).equalTo(ID, companyId).findFirst();
 
                 if(maxEmployeeId==null)
                 {

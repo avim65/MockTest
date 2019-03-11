@@ -27,6 +27,14 @@ public class EmployeeListViewModel extends ViewModel implements RealmChangeListe
     private MenuSortStatus menuSortStatus;
     private int mCompanyId;
 
+
+    @Override
+    public void onChange(Object o) {
+        mEmployeeRecyclerAdapter.notifyDataSetChanged();
+//        setEmployeeDataToList(RealmHelper.getSingleToneInstance().getAllEmployee(mCompanyId));
+    }
+
+
     public void init() {
         menuSortStatus = new MenuSortStatus();
         mEmployeeRecyclerAdapter = new EmployeeListRecyclerAdapter(R.layout.employee_list_item, this);
@@ -66,9 +74,4 @@ public class EmployeeListViewModel extends ViewModel implements RealmChangeListe
     }
 
 
-    @Override
-    public void onChange(Object o) {
-        mEmployeeRecyclerAdapter.notifyDataSetChanged();
-//        setEmployeeDataToList(RealmHelper.getSingleToneInstance().getAllEmployee(mCompanyId));
-    }
 }
