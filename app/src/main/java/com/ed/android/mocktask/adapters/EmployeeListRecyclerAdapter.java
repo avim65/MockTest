@@ -42,7 +42,7 @@ public class EmployeeListRecyclerAdapter extends RecyclerView.Adapter<EmployeeLi
     public void onBindViewHolder(@NonNull EmployeeListRecyclerAdapter.EmployeeListViewHolder employeeListViewHolder, int i) {
         Employee obj = getObjForPosition(i);
         employeeListViewHolder.bind(obj, employeeListViewModel);
-        employeeListViewHolder.setDataChangeTracking(obj);
+
     }
 
     @Override
@@ -72,14 +72,7 @@ public class EmployeeListRecyclerAdapter extends RecyclerView.Adapter<EmployeeLi
 
     class EmployeeListViewHolder extends RecyclerView.ViewHolder {
         final ViewDataBinding binding;
-        private RealmObject mObject;
 
-        private RealmChangeListener companyDataChangeListener = new RealmChangeListener() {
-            @Override
-            public void onChange(Object o) {
-                notifyItemChanged(getAdapterPosition());
-            }
-        };
 
         EmployeeListViewHolder(ViewDataBinding binding) {
             super(binding.getRoot());
@@ -92,12 +85,6 @@ public class EmployeeListRecyclerAdapter extends RecyclerView.Adapter<EmployeeLi
             binding.executePendingBindings();
         }
 
-        void setDataChangeTracking(RealmObject object) {
-            if (mObject != null)
-                mObject.removeChangeListener(companyDataChangeListener);
-            this.mObject = object;
-            this.mObject.addChangeListener(companyDataChangeListener);
-        }
 
     }
 

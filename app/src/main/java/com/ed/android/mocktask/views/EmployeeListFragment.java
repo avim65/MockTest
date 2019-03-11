@@ -78,6 +78,7 @@ public class EmployeeListFragment extends Fragment implements SearchView.OnQuery
         mCompanyId = args.getInt(TAG_COMPANY_ID, 0);
         employeeArrayList = args.getParcelableArrayList(TAG_EMPLOYEE_DATA);
         mEmployeeListViewModel.init();
+        mEmployeeListViewModel.setCompanyId(mCompanyId);
         mEmployeeListViewModel.setEmployeeDataToList(RealmHelper.getSingleToneInstance().getAllEmployee(mCompanyId));
     }
 

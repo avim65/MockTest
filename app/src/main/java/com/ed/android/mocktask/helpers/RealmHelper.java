@@ -201,9 +201,14 @@ public class RealmHelper {
         getRealmInstance().executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                Number maxEmployeeId = realm.where(Employee.class).max("id");
+                Number maxEmployeeId = realm.where(Employee.class)
+                        .equalTo("company.id",companyId).max("id");
                 Company parentCompany = realm.where(Company.class).equalTo("id", companyId).findFirst();
 
+                if(maxEmployeeId==null)
+                {
+                    maxEmployeeId=0;
+                }
                 employeeModel.setId(maxEmployeeId.intValue() + 1);
                 parentCompany.getEmloyees().add(employeeModel);
                 realm.copyToRealm(employeeModel);

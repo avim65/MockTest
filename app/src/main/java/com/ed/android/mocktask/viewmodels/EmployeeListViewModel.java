@@ -16,18 +16,24 @@ import com.ed.android.mocktask.utils.MenuSort;
 
 import java.util.List;
 
+import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
-public class EmployeeListViewModel extends ViewModel  {
+public class EmployeeListViewModel extends ViewModel implements RealmChangeListener {
 
     private EmployeeListRecyclerAdapter mEmployeeRecyclerAdapter;
     private RealmResults<Employee> mEmployeeSearchedResults;
     private MenuSortStatus menuSortStatus;
+    private int mCompanyId;
 
     public void init() {
         menuSortStatus = new MenuSortStatus();
         mEmployeeRecyclerAdapter = new EmployeeListRecyclerAdapter(R.layout.employee_list_item, this);
+    }
+
+    public void setCompanyId(int companyId) {
+        this.mCompanyId = companyId;
     }
 
     public EmployeeListRecyclerAdapter getEmployeeRecyclerAdapter() {
@@ -35,6 +41,7 @@ public class EmployeeListViewModel extends ViewModel  {
     }
 
     public void setEmployeeDataToList(RealmResults employeeList) {
+        employeeList.addChangeListener(this);
         this.mEmployeeRecyclerAdapter.seEmployeeList(employeeList);
         this.mEmployeeRecyclerAdapter.notifyDataSetChanged();
     }
@@ -59,4 +66,9 @@ public class EmployeeListViewModel extends ViewModel  {
     }
 
 
+    @Override
+    public void onChange(Object o) {
+        mEmployeeRecyclerAdapter.notifyDataSetChanged();
+//        setEmployeeDataToList(RealmHelper.getSingleToneInstance().getAllEmployee(mCompanyId));
+    }
 }

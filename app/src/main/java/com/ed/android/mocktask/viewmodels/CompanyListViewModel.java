@@ -21,7 +21,7 @@ import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 
-public class CompanyListViewModel extends ViewModel implements DBWriteCallback {
+public class CompanyListViewModel extends ViewModel implements DBWriteCallback, RealmChangeListener {
 
 
     private CompanyListRecyclerAdapter mCompanyRecycleAdapter;
@@ -29,6 +29,7 @@ public class CompanyListViewModel extends ViewModel implements DBWriteCallback {
     private RealmResults<Company> mCompanySearchedList;
     private MutableLiveData<Company> companyListClapsIconClick = new MutableLiveData<>();
     private MenuSortStatus menuSortStatus;
+    private int itemPosition=0;
 
 
     private OnFragmentInteractionListener mOnFragmentInteractionListener;
@@ -53,10 +54,13 @@ public class CompanyListViewModel extends ViewModel implements DBWriteCallback {
     }
 
     @Override
-    public void onDBWriteSuccess(List listData) {
+    public void onDBWriteSuccess(RealmResults realmResults) {
         menuSortStatus.setMenuSort(MenuSort.DSC);
-        setCompanyDataToList(RealmHelper.getSingleToneInstance().getAllCompanyData());
+
+        setCompanyDataToList(realmResults);
+        realmResults.addChangeListener(this);
     }
+
 
     private void setCompanyDataToList(RealmResults companyDataToList) {
         this.mCompanyRecycleAdapter.setCompanyList(companyDataToList);
@@ -114,4 +118,9 @@ public class CompanyListViewModel extends ViewModel implements DBWriteCallback {
     }
 
 
+    @Override
+    public void onChange(Object o) {
+
+        mCompanyRecycleAdapter.notifyDataSetChanged();
+    }
 }
