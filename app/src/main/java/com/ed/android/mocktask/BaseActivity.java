@@ -70,9 +70,7 @@ public class BaseActivity extends AppCompatActivity implements OnFragmentInterac
         //super.onBackPressed();
         if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
             getSupportFragmentManager().popBackStackImmediate();
-        } else {
-            super.onBackPressed();
-        }
+        } 
     }
 
 
