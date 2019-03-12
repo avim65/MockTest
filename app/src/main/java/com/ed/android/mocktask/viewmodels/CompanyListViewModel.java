@@ -29,7 +29,7 @@ public class CompanyListViewModel extends ViewModel implements DBWriteCallback, 
     private RealmResults<Company> mCompanySearchedList;
     private MutableLiveData<Company> companyListClapsIconClick = new MutableLiveData<>();
     private MenuSortStatus menuSortStatus;
-    private int itemPosition=0;
+    private int itemPosition = 0;
 
 
     private OnFragmentInteractionListener mOnFragmentInteractionListener;
@@ -121,6 +121,10 @@ public class CompanyListViewModel extends ViewModel implements DBWriteCallback, 
 
     public void updateClapsCount(Company companyObj) {
         RealmHelper.getSingleToneInstance().updateCompanyClapsCount(companyObj.getId(), getUpdatedClapsCount(companyObj));
+    }
+
+    public void removeChangeListner() {
+        removeChangeListner();
     }
 
 }

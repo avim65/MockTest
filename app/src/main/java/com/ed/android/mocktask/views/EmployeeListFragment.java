@@ -97,6 +97,7 @@ public class EmployeeListFragment extends Fragment implements SearchView.OnQuery
     @Override
     public void onDetach() {
         super.onDetach();
+//        mEmployeeListViewModel.removeChangeListner();
         mListener = null;
     }
 

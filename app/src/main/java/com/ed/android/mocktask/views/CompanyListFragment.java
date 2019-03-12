@@ -72,6 +72,7 @@ public class CompanyListFragment extends Fragment implements SearchView.OnQueryT
     @Override
     public void onDetach() {
         super.onDetach();
+//        mCompanyViewModel.removeChangeListner();
         mListener = null;
     }
 

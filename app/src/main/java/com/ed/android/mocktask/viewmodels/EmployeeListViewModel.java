@@ -73,5 +73,7 @@ public class EmployeeListViewModel extends ViewModel implements RealmChangeListe
         }
     }
 
-
+    public void removeChangeListner() {
+        removeChangeListner();
+    }
 }
